@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>120 AI Tools — دليلك الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080C14;
+    --surface: #0F1623;
+    --card: #141C2E;
+    --border: #1E2D45;
+    --text: #E8EFF8;
+    --muted: #7A90B0;
+    --chatbot: #00D4FF;
+    --writing: #A78BFA;
+    --productivity: #34D399;
+    --marketing: #F59E0B;
+    --design: #F472B6;
+    --video: #FB923C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── stars bg ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.12) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,0.08) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 90%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(2px 2px at 20% 45%, rgba(0,212,255,0.08) 0%, transparent 100%),
+      radial-gradient(2px 2px at 60% 35%, rgba(167,139,250,0.08) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── hero ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 70px 20px 50px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.3);
+    color: var(--chatbot);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 30%, #7dd3fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto 30px;
+    line-height: 1.7;
+  }
+
+  /* ── filter tabs ── */
+  .filters {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 0 20px 50px;
+  }
+
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    color: #fff;
+    border-color: currentColor;
+  }
+
+  .filter-btn[data-cat="all"].active    { color: #fff; background: rgba(255,255,255,0.08); }
+  .filter-btn[data-cat="chatbot"].active    { color: var(--chatbot);     background: rgba(0,212,255,0.1); border-color: var(--chatbot); }
+  .filter-btn[data-cat="writing"].active    { color: var(--writing);     background: rgba(167,139,250,0.1); border-color: var(--writing); }
+  .filter-btn[data-cat="productivity"].active { color: var(--productivity); background: rgba(52,211,153,0.1); border-color: var(--productivity); }
+  .filter-btn[data-cat="marketing"].active  { color: var(--marketing);   background: rgba(245,158,11,0.1); border-color: var(--marketing); }
+  .filter-btn[data-cat="design"].active     { color: var(--design);      background: rgba(244,114,182,0.1); border-color: var(--design); }
+  .filter-btn[data-cat="video"].active      { color: var(--video);       background: rgba(251,146,60,0.1); border-color: var(--video); }
+
+  /* ── grid ── */
+  .grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0 30px 80px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  /* ── card ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    text-decoration: none;
+    color: inherit;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .card[data-cat="chatbot"]:hover     { border-color: var(--chatbot);     box-shadow: 0 20px 40px rgba(0,212,255,0.15); }
+  .card[data-cat="writing"]:hover     { border-color: var(--writing);     box-shadow: 0 20px 40px rgba(167,139,250,0.15); }
+  .card[data-cat="productivity"]:hover{ border-color: var(--productivity); box-shadow: 0 20px 40px rgba(52,211,153,0.15); }
+  .card[data-cat="marketing"]:hover   { border-color: var(--marketing);   box-shadow: 0 20px 40px rgba(245,158,11,0.15); }
+  .card[data-cat="design"]:hover      { border-color: var(--design);      box-shadow: 0 20px 40px rgba(244,114,182,0.15); }
+  .card[data-cat="video"]:hover       { border-color: var(--video);       box-shadow: 0 20px 40px rgba(251,146,60,0.15); }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%);
+    border-radius: inherit;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .card-cat {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .card[data-cat="chatbot"]      .card-cat { background: rgba(0,212,255,0.12);     color: var(--chatbot); }
+  .card[data-cat="writing"]      .card-cat { background: rgba(167,139,250,0.12);   color: var(--writing); }
+  .card[data-cat="productivity"] .card-cat { background: rgba(52,211,153,0.12);    color: var(--productivity); }
+  .card[data-cat="marketing"]    .card-cat { background: rgba(245,158,11,0.12);    color: var(--marketing); }
+  .card[data-cat="design"]       .card-cat { background: rgba(244,114,182,0.12);   color: var(--design); }
+  .card[data-cat="video"]        .card-cat { background: rgba(251,146,60,0.12);    color: var(--video); }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .card-link {
+    margin-top: auto;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .card:hover .card-link {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .card.hidden { display: none; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 30px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">120 MIND-BLOWING AI TOOLS</div>
+  <h1>دليلك الشامل<br>لأدوات الذكاء الاصطناعي</h1>
+  <p>اختر التصنيف المناسب واكتشف أفضل أدوات AI لكل مجال — اضغط على أي أداة لفتح موقعها مباشرة</p>
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <button class="filter-btn active" data-cat="all">🌐 الكل</button>
+  <button class="filter-btn" data-cat="chatbot">💬 Chatbot</button>
+  <button class="filter-btn" data-cat="writing">✍️ Writing</button>
+  <button class="filter-btn" data-cat="productivity">⚡ Productivity</button>
+  <button class="filter-btn" data-cat="marketing">📣 Marketing</button>
+  <button class="filter-btn" data-cat="design">🎨 Design</button>
+  <button class="filter-btn" data-cat="video">🎬 Video</button>
+</div>
+
+<!-- Grid -->
+<div class="grid" id="grid"></div>
+
+<footer>
+  &nbsp;|&nbsp; اضغط على أي بطاقة لفتح الموقع مباشرة
+</footer>
+
+<script>
+const tools = [
+  // ── CHATBOT ──
+  { name: "Claude",       cat: "chatbot",      color: "#D97757", icon: "C",  url: "https://claude.ai",          desc: "الأفضل للكتابة الطويلة، تحليل الكود، والأسئلة العميقة" },
+  { name: "ChatGPT",      cat: "chatbot",      color: "#10A37F", icon: "G",  url: "https://chat.openai.com",    desc: "الأشهر عالمياً، متعدد الاستخدامات ويدعم الإضافات" },
+  { name: "Gemini",       cat: "chatbot",      color: "#4285F4", icon: "G",  url: "https://gemini.google.com",  desc: "متكامل مع Google، يبحث في الإنترنت مباشرة" },
+  { name: "Perplexity",   cat: "chatbot",      color: "#20B2AA", icon: "P",  url: "https://perplexity.ai",      desc: "محرك بحث ذكي يجيب بمصادر موثوقة ومحدّثة" },
+  { name: "Copilot",      cat: "chatbot",      color: "#0078D4", icon: "✦",  url: "https://copilot.microsoft.com", desc: "مساعد Microsoft المدمج في Windows وOffice" },
+  { name: "Monica",       cat: "chatbot",      color: "#7C3AED", icon: "M",  url: "https://monica.im",          desc: "مساعد AI في المتصفح يعمل على أي موقع تزوره" },
+  { name: "Chatbase",     cat: "chatbot",      color: "#3B82F6", icon: "C",  url: "https://chatbase.co",        desc: "بناء chatbot مخصص لموقعك من ملفاتك الخاصة" },
+  { name: "Poe",          cat: "chatbot",      color: "#FF6B6B", icon: "P",  url: "https://poe.com",            desc: "منصة تجمع كل نماذج AI في مكان واحد" },
+  { name: "Bing AI",      cat: "chatbot",      color: "#00AEFF", icon: "B",  url: "https://bing.com/chat",      desc: "بحث ذكي مع ردود تفصيلية وصور مباشرة" },
+  { name: "HuggingChat",  cat: "chatbot",      color: "#FF9A00", icon: "H",  url: "https://huggingface.co/chat", desc: "نماذج AI مفتوحة المصدر مجاناً بدون قيود" },
+
+  // ── WRITING ──
+  { name: "Grammarly",    cat: "writing",      color: "#15C39A", icon: "G",  url: "https://grammarly.com",      desc: "تصحيح القواعد والأسلوب الإنجليزي تلقائياً" },
+  { name: "Copy.ai",      cat: "writing",      color: "#6366F1", icon: "C",  url: "https://copy.ai",            desc: "كتابة محتوى تسويقي واحترافي بضغطة زر" },
+  { name: "Jasper",       cat: "writing",      color: "#FF7043", icon: "J",  url: "https://jasper.ai",          desc: "كتابة مقالات ومحتوى SEO بجودة عالية" },
+  { name: "QuillBot",     cat: "writing",      color: "#00BFA5", icon: "Q",  url: "https://quillbot.com",       desc: "إعادة صياغة الجمل بأساليب مختلفة" },
+  { name: "Rytr",         cat: "writing",      color: "#7C4DFF", icon: "R",  url: "https://rytr.me",            desc: "كتابة نصوص سريعة بأسعار معقولة" },
+  { name: "Wordtune",     cat: "writing",      color: "#4CAF50", icon: "W",  url: "https://wordtune.com",       desc: "تحسين وإعادة صياغة النصوص الإنجليزية" },
+  { name: "HyperWrite",   cat: "writing",      color: "#2196F3", icon: "H",  url: "https://hyperwriteai.com",   desc: "مساعد كتابة يتعلم من أسلوبك الشخصي" },
+  { name: "Jenni AI",     cat: "writing",      color: "#FF4081", icon: "J",  url: "https://jenni.ai",           desc: "الأفضل لكتابة الأبحاث والمقالات الأكاديمية" },
+  { name: "Sudowrite",    cat: "writing",      color: "#9C27B0", icon: "S",  url: "https://sudowrite.com",      desc: "مساعد لكتابة الروايات والقصص الإبداعية" },
+  { name: "Notion AI",    cat: "writing",      color: "#333333", icon: "N",  url: "https://notion.so",          desc: "كتابة وتنظيم الملاحظات والوثائق بالذكاء الاصطناعي" },
+
+  // ── PRODUCTIVITY ──
+  { name: "Replit",       cat: "productivity", color: "#F26207", icon: "R",  url: "https://replit.com",         desc: "برمجة وتشغيل الكود في المتصفح مباشرة" },
+  { name: "Codeium",      cat: "productivity", color: "#09B6A2", icon: "C",  url: "https://codeium.com",        desc: "إكمال الكود تلقائياً في محررك المفضل مجاناً" },
+  { name: "Taskade",      cat: "productivity", color: "#6C63FF", icon: "T",  url: "https://taskade.com",        desc: "إدارة المشاريع والمهام بمساعدة AI" },
+  { name: "Zapier",       cat: "productivity", color: "#FF4A00", icon: "Z",  url: "https://zapier.com",         desc: "ربط التطبيقات وأتمتة المهام المتكررة بدون كود" },
+  { name: "Otter.ai",     cat: "productivity", color: "#1DA1F2", icon: "O",  url: "https://otter.ai",           desc: "تحويل الاجتماعات والمحادثات إلى نصوص تلقائياً" },
+  { name: "Phind",        cat: "productivity", color: "#7B68EE", icon: "P",  url: "https://phind.com",          desc: "محرك بحث للمطورين يعطي أكواداً جاهزة" },
+  { name: "GitMind",      cat: "productivity", color: "#00BCD4", icon: "G",  url: "https://gitmind.com",        desc: "إنشاء خرائط ذهنية وتنظيم الأفكار بسرعة" },
+  { name: "Mem.ai",       cat: "productivity", color: "#FF6B35", icon: "M",  url: "https://mem.ai",             desc: "ملاحظات ذكية تتذكر كل شيء وتربط الأفكار" },
+  { name: "Framer",       cat: "productivity", color: "#0055FF", icon: "F",  url: "https://framer.com",         desc: "بناء مواقع تفاعلية بدون كود باستخدام AI" },
+  { name: "10web",        cat: "productivity", color: "#00B4D8", icon: "10", url: "https://10web.io",           desc: "بناء مواقع WordPress بالذكاء الاصطناعي في دقائق" },
+
+  // ── MARKETING ──
+  { name: "Semrush",      cat: "marketing",    color: "#FF642B", icon: "S",  url: "https://semrush.com",        desc: "تحليل SEO والكلمات المفتاحية ومراقبة المنافسين" },
+  { name: "AdCopy",       cat: "marketing",    color: "#6D28D9", icon: "A",  url: "https://adcopy.ai",          desc: "كتابة إعلانات Google وFacebook عالية التحويل" },
+  { name: "AdCreative",   cat: "marketing",    color: "#2563EB", icon: "A",  url: "https://adcreative.ai",      desc: "تصميم إعلانات بصرية احترافية بالذكاء الاصطناعي" },
+  { name: "Jasper",       cat: "marketing",    color: "#FF7043", icon: "J",  url: "https://jasper.ai",          desc: "استراتيجيات تسويق ومحتوى لحملات فعّالة" },
+  { name: "Madgicx",      cat: "marketing",    color: "#9B59B6", icon: "M",  url: "https://madgicx.com",        desc: "إدارة وتحسين إعلانات Facebook تلقائياً" },
+  { name: "Surfer SEO",   cat: "marketing",    color: "#1ABC9C", icon: "S",  url: "https://surferseo.com",      desc: "تحسين المقالات والمحتوى للظهور في أول Google" },
+  { name: "Clearscope",   cat: "marketing",    color: "#3498DB", icon: "C",  url: "https://clearscope.io",      desc: "تحليل المحتوى لضمان التصدر في نتائج البحث" },
+  { name: "Plai",         cat: "marketing",    color: "#E74C3C", icon: "P",  url: "https://plai.io",            desc: "إدارة حملات إعلانية متعددة بلوحة تحكم واحدة" },
+  { name: "Pencil",       cat: "marketing",    color: "#F39C12", icon: "✏",  url: "https://trypencil.com",      desc: "توليد إعلانات فيديو ومرئية لمنصات التواصل" },
+  { name: "Blogseo",      cat: "marketing",    color: "#27AE60", icon: "B",  url: "https://blogseo.ai",         desc: "كتابة مقالات مُحسَّنة لمحركات البحث تلقائياً" },
+
+  // ── DESIGN ──
+  { name: "Midjourney",   cat: "design",       color: "#FFFFFF", icon: "M",  url: "https://midjourney.com",     desc: "توليد صور فنية خيالية بمستوى احترافي عالي" },
+  { name: "DALL-E 2",     cat: "design",       color: "#10A37F", icon: "D",  url: "https://openai.com/dall-e-2", desc: "رسم أي فكرة بالكلمات من OpenAI" },
+  { name: "Canva AI",     cat: "design",       color: "#00C4CC", icon: "C",  url: "https://canva.com",          desc: "تصميم احترافي بمساعدة AI لغير المصممين" },
+  { name: "Adobe Firefly",cat: "design",       color: "#FF0000", icon: "A",  url: "https://firefly.adobe.com",  desc: "توليد صور وتأثيرات بصرية من Adobe" },
+  { name: "Ideogram",     cat: "design",       color: "#333",    icon: "I",  url: "https://ideogram.ai",        desc: "الأفضل لتوليد صور تحتوي على نصوص واضحة" },
+  { name: "Leonardo AI",  cat: "design",       color: "#8B5CF6", icon: "L",  url: "https://leonardo.ai",        desc: "توليد صور للألعاب والشخصيات والفن الرقمي" },
+  { name: "Looka",        cat: "design",       color: "#6366F1", icon: "L",  url: "https://looka.com",          desc: "تصميم شعارات احترافية للشركات بالذكاء الاصطناعي" },
+  { name: "Brandmark",    cat: "design",       color: "#EC4899", icon: "B",  url: "https://brandmark.io",       desc: "هوية بصرية كاملة للعلامة التجارية تلقائياً" },
+  { name: "Playground",   cat: "design",       color: "#06B6D4", icon: "P",  url: "https://playgroundai.com",   desc: "توليد صور واقعية وفنية بحرية كاملة" },
+  { name: "SeaArt",       cat: "design",       color: "#0EA5E9", icon: "S",  url: "https://seaart.ai",          desc: "إنشاء صور anime وفن رقمي بأنماط متنوعة" },
+
+  // ── VIDEO ──
+  { name: "HeyGen",       cat: "video",        color: "#6366F1", icon: "H",  url: "https://heygen.com",         desc: "إنشاء فيديو بأفاتار بشري حقيقي يتحدث بصوتك" },
+  { name: "Runway",       cat: "video",        color: "#00FF87", icon: "R",  url: "https://runwayml.com",       desc: "تحرير وتوليد مقاطع فيديو احترافية بالذكاء الاصطناعي" },
+  { name: "Synthesia",    cat: "video",        color: "#7C3AED", icon: "S",  url: "https://synthesia.io",       desc: "فيديوهات تعليمية وتدريبية بمقدمين افتراضيين" },
+  { name: "Descript",     cat: "video",        color: "#1DB954", icon: "D",  url: "https://descript.com",       desc: "تحرير الفيديو بتعديل النص مثل Word" },
+  { name: "Invideo",      cat: "video",        color: "#FF6B6B", icon: "I",  url: "https://invideo.io",         desc: "تحويل النصوص والأفكار إلى فيديوهات منتجة" },
+  { name: "Veed.io",      cat: "video",        color: "#FFD700", icon: "V",  url: "https://veed.io",            desc: "إضافة ترجمات ومؤثرات للفيديو بسرعة" },
+  { name: "Suno",         cat: "video",        color: "#F97316", icon: "S",  url: "https://suno.ai",            desc: "توليد موسيقى وأغاني كاملة بالكلمات فقط" },
+  { name: "Fliki",        cat: "video",        color: "#8B5CF6", icon: "F",  url: "https://fliki.ai",           desc: "تحويل المقالات إلى فيديوهات بصوت بشري" },
+  { name: "Pictory",      cat: "video",        color: "#EC4899", icon: "P",  url: "https://pictory.ai",         desc: "اختصار الفيديوهات الطويلة لمقاطع قصيرة" },
+  { name: "Eleven Labs",  cat: "video",        color: "#06B6D4", icon: "11", url: "https://elevenlabs.io",      desc: "استنساخ الصوت وتحويل النص لكلام طبيعي" },
+];
+
+function renderCards(filter) {
+  const grid = document.getElementById('grid');
+  const filtered = filter === 'all' ? tools : tools.filter(t => t.cat === filter);
+
+  grid.innerHTML = '';
+  filtered.forEach((t, i) => {
+    const a = document.createElement('a');
+    a.href = t.url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.className = 'card';
+    a.dataset.cat = t.cat;
+    a.style.animationDelay = (i * 0.04) + 's';
+
+    const catLabels = { chatbot:'💬 Chatbot', writing:'✍️ Writing', productivity:'⚡ Productivity', marketing:'📣 Marketing', design:'🎨 Design', video:'🎬 Video' };
+
+    a.innerHTML = `
+      <div class="card-icon" style="background:${t.color}">${t.icon}</div>
+      <div class="card-name">${t.name}</div>
+      <div class="card-cat">${catLabels[t.cat]}</div>
+      <div class="card-desc">${t.desc}</div>
+      <div class="card-link">فتح الموقع ↗</div>
+    `;
+    grid.appendChild(a);
+  });
+}
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(btn.dataset.cat);
+  });
+});
+
+renderCards('all');
+</script>
+</body>
+</html>
